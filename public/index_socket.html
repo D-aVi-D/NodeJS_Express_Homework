@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Homework chat</title>
+</head>
+<body>
+	<div>
+		<input type="text" placeholder="Your name" id="nameInput">
+		<input type="button" value="OK" id="nameButton">
+	</div>
+	<ul id="messages"></ul>
+	<div>
+		<textarea id="text" cols="30" rows="10"></textarea>
+		<input type="button" value="Send" id="textSubmit">
+	</div>
+</body>
+<script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+<script type="text/javascript">
+	(function() {
+		var nameButton = document.getElementById('nameButton'),
+			nameInput = document.getElementById('nameInput'),
+			messages = document.getElementById('messages'),
+			text = document.getElementById('text'),
+			textSubmit = document.getElementById('textSubmit');
+		
+		var userName = 'User1 ';
+		var socket = io.connect();
+
+		nameButton.onclick = function() {
+			userName = nameInput.value || 'User1';
+		};
+		textSubmit.onclick = function() {
+			var dt = new Date();
+			var data = {
+				name: userName,
+				text: text.value,
+				date: dt.toDateString() + '  ' + dt.toTimeString().substring(0,8)
+			};
+			text.value = '';
+			socket.emit('chat message', data);
+		};
+		
+		socket.on('chat history', function(msg) {
+			messages.innerHTML = '';
+			for(var i in msg) {
+				if(msg.hasOwnProperty(i)) {
+					var el = document.createElement('li');
+					el.innerText = msg[i].name + ': ' + msg[i].text;
+					messages.appendChild(el);
+				}
+			}
+		});
+
+		socket.on('chat message', function(msg) {
+			var el = document.createElement('li');
+			el.innerText = msg.name + ': ' + msg.text;
+			messages.appendChild(el);
+		});
+	})();
+</script>
+</html>

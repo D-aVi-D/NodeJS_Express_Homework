@@ -1,0 +1,23 @@
+{
+  "name": "09_homework",
+  "version": "1.0.0",
+  "description": "local chat homework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "DaViD",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "bson": "^0.5.2",
+    "express": "^4.14.0",
+    "mongodb": "^1.4.40",
+    "node-datetime": "^1.0.0",
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {}
+}
